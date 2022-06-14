@@ -1,0 +1,113 @@
+<ion-header class="ion-no-border">
+<ion-toolbar color="light">
+<ion-buttons slot="start">
+<ion-menu-button></ion-menu-button>
+</ion-buttons>
+<ion-title *ngIf="store">{{ store.name }}</ion-title>
+</ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="data && text">
+
+<ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)"><ion-refresher-content></ion-refresher-content></ion-refresher>
+
+<div style="height: 80px;background-color:#f4f5f8">
+&nbsp;
+</div>
+
+<div style="height: auto;margin-top: -20%;border-radius: 30px;background-color: white" class="ion-padding">
+
+<h3>{{ text.s_order_overview }}</h3>
+
+
+<ion-row style="text-align: center;border-bottom: 2px solid #f4f5f8">
+
+<ion-col size="6" style="border-right:1px solid #e8e8e8"><ion-icon name="cart" style="font-size: 30px" color="primary"></ion-icon><br><b>{{ text.s_total_order }}</b><br><small>{{ overview.total }}</small></ion-col>
+
+<ion-col size="6"><ion-icon name="checkmark-circle" style="font-size: 30px" color="primary"></ion-icon><br><b>{{ text.s_complete_order }}</b><br><small>{{ overview.complete }}</small></ion-col>
+
+</ion-row>
+</div>
+
+<br>
+
+<ion-segment [(ngModel)]="pet" scrollable *ngIf="text" mode="md">
+<ion-segment-button value="1" mode="md">
+{{ text.s_new_order }}
+</ion-segment-button>
+<ion-segment-button value="2" mode="md">
+{{ text.s_complete_order }}
+</ion-segment-button>
+
+<ion-segment-button value="3" mode="md">
+{{ text.s_cancel_order }}
+</ion-segment-button>
+
+</ion-segment>
+
+<div [ngSwitch]="pet">
+
+<div *ngSwitchCase="1">
+
+<ion-row *ngFor="let order of data" (click)="detail(order)" style="border-bottom: 2px solid #f4f5f8;padding: 10px 10px">
+<ion-col size="2"><b>{{ order.id }}</b></ion-col>
+<ion-col size="6">{{ order.name }} 
+
+<small style="color:red" *ngIf="order.otp == 1">({{ text.s_delivery }})</small>
+<small style="color:red" *ngIf="order.otp != 1">({{ text.s_pickup }})</small>
+
+<br><small>{{ order.address }}</small>
+
+<br>
+
+<small style="color:orange;" *ngIf="order.status == 0">{{ text.s_new_order_status }}</small>
+<small style="color:green;" *ngIf="order.status == 1">{{ text.s_confirm_order_status }}</small>
+<small style="color:blue;" *ngIf="order.status == 3">{{ text.s_delivery_assign_status }}</small>
+<small style="color:black;" *ngIf="order.status == 4">{{ text.s_on_way_status }}</small>
+
+</ion-col>
+<ion-col size="4" style="text-align: right"> <ion-chip color="danger">{{ order.currency }} {{ order.total }}</ion-chip>
+</ion-col>
+</ion-row>
+
+</div>
+
+<div *ngSwitchCase="2">
+
+<ion-row *ngFor="let order of complete" (click)="detail(order)" style="border-bottom: 2px solid #f4f5f8;padding: 10px 10px">
+<ion-col size="2"><b>{{ order.id }}</b></ion-col>
+<ion-col size="6">{{ order.name }} 
+
+<small style="color:red" *ngIf="order.otp == 1">({{ text.s_delivery }})</small>
+<small style="color:red" *ngIf="order.otp != 1">({{ text.s_pickup }})</small>
+
+<br><small>{{ order.address }}</small>
+
+</ion-col>
+<ion-col size="4" style="text-align: right"> <ion-chip color="danger">{{ order.currency }} {{ order.total }}</ion-chip>
+</ion-col>
+</ion-row>
+
+</div>
+
+<div *ngSwitchCase="3">
+
+<ion-row *ngFor="let order of cancel" style="border-bottom: 2px solid #f4f5f8;padding: 10px 10px">
+<ion-col size="2"><b>{{ order.id }}</b></ion-col>
+<ion-col size="6">{{ order.name }} 
+
+<small style="color:red" *ngIf="order.otp == 1">({{ text.s_delivery }})</small>
+<small style="color:red" *ngIf="order.otp != 1">({{ text.s_pickup }})</small>
+
+<br><small>{{ order.address }}</small>
+
+</ion-col>
+<ion-col size="4" style="text-align: right"> <ion-chip color="danger">{{ order.currency }} {{ order.total }}</ion-chip>
+</ion-col>
+</ion-row>
+
+</div>
+
+</div>
+
+</ion-content>

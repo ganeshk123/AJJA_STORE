@@ -1,0 +1,45 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+<ion-back-button></ion-back-button>
+</ion-buttons>
+    <ion-title *ngIf="text">
+    {{ text.s_edit }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="text">
+
+<div style="height: 80px;background-color:#f4f5f8">
+&nbsp;
+</div>
+
+<div style="height: auto;margin-top: -20%;border-radius: 30px;background-color: white" class="ion-padding">
+
+<form #form="ngForm" (ngSubmit)="edit(form.value)">
+
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_small_price }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="data.s_price" required name="s_price"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_medium_price }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="data.m_price" required name="m_price"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_full_price }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="data.l_price" required name="l_price"></ion-input>
+</ion-item>
+
+<br><br>
+<ion-button expand="block" mode="ios" type="submit">{{ text.s_submit }}</ion-button>
+</form>
+
+</div>
+
+</ion-content>
+

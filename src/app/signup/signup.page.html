@@ -1,0 +1,140 @@
+<ion-content class="ion-padding" *ngIf="text && data && setting" #content>
+
+<ion-icon name="arrow-back-outline" style="font-size: 26px" routerLink="/login" routerDirection="backword"></ion-icon>
+
+<br><br><br>
+
+<h1 align="center">{{ text.s_signup_title }}</h1>
+<p align="center">{{ text.s_signup_desc }}</p>
+<br>
+
+<form #form="ngForm" (ngSubmit)="makeOrder(form.value)">
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_name }}</ion-label>
+  <ion-input type="text" ngModel name="name" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_phone }}</ion-label>
+  <ion-input type="tel" ngModel name="phone" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_address }}</ion-label>
+  <ion-input type="text" ngModel name="address" required></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_pass }}</ion-label>
+  <ion-input type="password" ngModel name="password" required></ion-input>
+</ion-item>
+
+
+<br><br>
+<ion-row *ngFor="let plan of data.plan" class="plan" (click)="selectPlan(plan)" [class]="plan.id == plan_id ? 'activeCard' : 'non'">
+
+<ion-col size="12"><b>{{ plan.name }} <ion-chip style="float: right" color="primary">{{ plan.currency }}{{ plan.price }}</ion-chip></b></ion-col>
+
+<ion-col size="12" style="font-size: 12px">{{ plan.desc }}</ion-col>
+
+<ion-col size="12" style="font-size: 12px">
+<p><ion-icon name="checkmark-outline"></ion-icon> {{ text.time_period }} : {{ plan.time }}</p>
+
+<p *ngFor="let fet of plan.feat"><ion-icon name="checkmark-outline"></ion-icon> {{ fet }}</p>
+
+</ion-col>
+
+</ion-row>
+
+<span *ngIf="amount > 0">
+<h3>{{ text.payment_method }}</h3>
+
+<ion-card mode="ios" (click)="setPayment(0)" [class]="payment == 0 ? 'activeCard' : 'non'">
+
+<ion-card-header>
+<ion-card-subtitle [class]="payment == 0 ? 'activeHeader' : 'non'">{{ text.pay_with_cash }} <ion-icon [name]="payment == 0 ? 'cash' : 'cash-outline'" class="paymentIcon"></ion-icon></ion-card-subtitle>
+</ion-card-header>
+</ion-card>
+
+<ion-card mode="ios" (click)="setPayment(3)" [class]="payment == 3 ? 'activeCard' : 'non'">
+
+<ion-card-header>
+<ion-card-subtitle [class]="payment == 3 ? 'activeHeader' : 'non'">{{ text.bank_transfer }} <ion-icon [name]="payment == 3 ? 'cash' : 'cash-outline'" class="paymentIcon"></ion-icon></ion-card-subtitle>
+</ion-card-header>
+
+<ion-card-content style="font-size: 12px">
+<span [innerHTML]="data.setting.bank_transfer"></span>
+</ion-card-content>
+
+</ion-card>
+
+<ion-card mode="ios" (click)="setPayment(2)" [class]="payment == 2 ? 'activeCard' : 'non'" *ngIf="data.setting.stripe_key">
+
+<ion-card-header>
+<ion-card-subtitle [class]="payment == 2 ? 'activeHeader' : 'non'">{{ text.stripe }} <ion-icon [name]="payment == 2 ? 'card' : 'card-outline'" class="paymentIcon"></ion-icon></ion-card-subtitle>
+</ion-card-header>
+
+</ion-card>
+
+
+<ion-card mode="ios" (click)="setPayment(4)" [class]="payment == 4 ? 'activeCard' : 'non'" *ngIf="data.setting.razor_key">
+
+<ion-card-header>
+<ion-card-subtitle [class]="payment == 4 ? 'activeHeader' : 'non'">{{ text.razor }} <ion-icon [name]="payment == 4 ? 'wallet' : 'wallet-outline'" class="paymentIcon"></ion-icon></ion-card-subtitle>
+</ion-card-header>
+
+</ion-card>
+
+<div *ngIf="stripeView">
+
+<p style="margin-top: 15%">{{ text.stripe_title }}</p>
+<ion-row>
+
+<ion-col size="12">
+<ion-item>
+  <ion-label position="floating">{{ text.card_no }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="card_no" name="card_no"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="6">
+<ion-item>
+  <ion-label position="floating">{{ text.exp_month }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="exp_month" name="exp_month"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="6">
+<ion-item>
+  <ion-label position="floating">{{ text.exp_year }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="exp_year" name="exp_year"></ion-input>
+</ion-item>
+</ion-col>
+
+<ion-col size="6">
+<ion-item>
+  <ion-label position="floating">{{ text.cvv }}</ion-label>
+  <ion-input type="tel" [(ngModel)]="cvv" name="cvv"></ion-input>
+</ion-item>
+</ion-col>
+</ion-row>
+</div>
+
+<ion-item *ngIf="payment == 3">
+  <ion-label position="floating">{{ text.notes_bank }}</ion-label>
+  <ion-input type="text" ngModel name="notes"></ion-input>
+</ion-item>
+</span>
+
+<ion-item class="ion-text-wrap">
+    <ion-label class="ion-text-wrap" style="font-size: 12px">{{ text.term_text }} <a href="{{ setting.term }}" target="_blank">{{ text.term }}</a></ion-label>
+    <ion-checkbox slot="start" (ionChange)="term()"></ion-checkbox>
+  </ion-item>
+
+<br><br>
+<ion-button expand="block" mode="ios" type="submit" [disabled]="!form.valid || !hasTerm">{{ text.submit_btn }}</ion-button>
+
+</form>
+
+</ion-content>

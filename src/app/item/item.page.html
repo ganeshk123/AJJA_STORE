@@ -1,0 +1,86 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+<ion-menu-button></ion-menu-button>
+</ion-buttons>
+    <ion-title *ngIf="text">
+     {{ text.s_menu_item }}
+    </ion-title>
+
+
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="data && text">
+
+<div style="height: 80px;background-color:#f4f5f8">
+&nbsp;
+</div>
+
+<div style="height: auto;margin-top: -20%;border-radius: 30px;background-color: white">
+<br>
+<div style="background-color: white;padding: 10px 10px">
+
+<ion-segment [(ngModel)]="pet" scrollable mode="md">
+<ion-segment-button value="0" mode="md">
+{{ text.s_all_item }}
+</ion-segment-button>
+
+<ion-segment-button value="{{ cate.id }}" *ngFor="let cate of data.cate" mode="md">
+{{ cate.name }}
+</ion-segment-button>
+
+</ion-segment>
+
+</div>
+
+
+<div [ngSwitch]="pet">
+
+<div *ngSwitchCase="0">
+<ion-card mode="ios" style="background-color: white;" *ngFor="let item of data.item">
+
+<ion-card-content>
+
+<ion-row>
+<ion-col size="3"><img src="{{ item.img }}" style="width: 80%;margin-left: 10%"></ion-col>
+<ion-col size="7">{{ item.name }}
+<br>
+<a style="color:red" (click)="editPrice(item)">{{ text.s_edit }}</a>
+
+</ion-col>
+<ion-col size="2" *ngIf="item.status == 1"><ion-toggle color="success" mode="ios" (ionChange)="changeStatus(item.id,0)"></ion-toggle></ion-col>
+<ion-col size="2" *ngIf="item.status == 0"><ion-toggle color="success" mode="ios" checked="true" (ionChange)="changeStatus(item.id,1)"></ion-toggle></ion-col>
+</ion-row>
+
+</ion-card-content>
+
+</ion-card>
+</div>
+
+<span *ngFor="let c of data.cate">
+<div *ngSwitchCase="c.id">
+<span *ngFor="let item of data.item">
+<ion-card mode="ios" *ngIf="item.cate_id == c.id">
+
+<ion-card-content>
+
+<ion-row>
+<ion-col size="3"><img src="{{ item.img }}" style="width: 80%;margin-left: 10%"></ion-col>
+<ion-col size="7">{{ item.name }}
+<br>
+<a style="color:red" (click)="editPrice(item)">{{ text.s_edit }}</a>
+</ion-col>
+<ion-col size="2" *ngIf="item.status == 1"><ion-toggle color="success" mode="ios" (ionChange)="changeStatus(item.id,0)"></ion-toggle></ion-col>
+<ion-col size="2" *ngIf="item.status == 0"><ion-toggle color="success" mode="ios" checked="true" (ionChange)="changeStatus(item.id,1)"></ion-toggle></ion-col>
+</ion-row>
+
+</ion-card-content>
+
+</ion-card>
+</span>
+</div>
+</span>
+
+</div>
+</div>
+</ion-content>

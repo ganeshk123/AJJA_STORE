@@ -1,0 +1,78 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="light">
+    <ion-buttons slot="start">
+<ion-back-button></ion-back-button>
+</ion-buttons>
+    <ion-title *ngIf="text">
+    {{ text.menu_my_account }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content *ngIf="data && text">
+
+<div style="height: 80px;background-color:#f4f5f8">
+&nbsp;
+</div>
+
+<div style="height: auto;margin-top: -20%;border-radius: 30px;background-color: white" class="ion-padding">
+<h3>{{ text.s_update_account }}</h3>
+
+<form #form="ngForm" (ngSubmit)="update(form.value)">
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_name }}</ion-label>
+  <ion-input type="tel" name="name" [(ngModel)]="data.name"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_phone }}</ion-label>
+  <ion-input type="tel" name="phone" [(ngModel)]="data.phone"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_signup_address }}</ion-label>
+  <ion-input type="text" name="address" [(ngModel)]="data.address"></ion-input>
+</ion-item>
+
+<h3>{{ text.s_delivery_charges }}</h3>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_enter_km_fix }}</ion-label>
+  <ion-input type="tel" name="fix_km" [(ngModel)]="data.fix_km"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_enter_amount_fix }}</ion-label>
+  <ion-input type="tel" name="fix_amount" [(ngModel)]="data.fix_amount"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_amount_after }}</ion-label>
+  <ion-input type="tel" name="per_km" [(ngModel)]="data.per_km"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.s_max_delivery }}</ion-label>
+  <ion-input type="tel" name="max_km" [(ngModel)]="data.max_km"></ion-input>
+</ion-item>
+
+<h3>{{ text.s_store_open_close }}</h3>
+
+<ion-item>
+<ion-label>{{ text.s_store_open }}</ion-label>
+<ion-toggle color="success" *ngIf="data.open == 1" (ionChange)="storeOpen(0)"></ion-toggle>
+<ion-toggle color="success" *ngIf="data.open == 0" checked (ionChange)="storeOpen(1)"></ion-toggle>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating">{{ text.d_change_pass }}</ion-label>
+  <ion-input type="password" name="password" ngModel></ion-input>
+</ion-item>
+<br>
+
+<ion-button expand="block" mode="ios" type="submit" [disabled]="!form" style="width: 90%;margin-left: 5%">{{ text.s_submit }}</ion-button>
+</form>
+</div>
+</ion-content>
